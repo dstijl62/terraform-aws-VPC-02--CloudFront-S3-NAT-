@@ -1,7 +1,6 @@
-# IAM Role để EC2 có thể lấy secret từ Secrets Manager (hoặc ghi log)
+# IAM Role for EC2
 resource "aws_iam_role" "ec2_role" {
   name = "ec2-web-role"
-
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -16,11 +15,10 @@ resource "aws_iam_role" "ec2_role" {
   })
 }
 
-# Gán policy cho phép đọc Secrets Manager (nếu bạn lưu password ở đó)
+# IAM Policy for Secrets Manager (optional)
 resource "aws_iam_policy" "secrets_manager_policy" {
   name        = "ec2-secrets-manager-policy"
   description = "Allow EC2 to read secrets from Secrets Manager"
-
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -40,7 +38,7 @@ resource "aws_iam_role_policy_attachment" "attach_secrets" {
   policy_arn = aws_iam_policy.secrets_manager_policy.arn
 }
 
-# Instance Profile để gán vào Launch Template
+# Instance Profile
 resource "aws_iam_instance_profile" "ec2_profile" {
   name = "ec2-web-profile"
   role = aws_iam_role.ec2_role.name

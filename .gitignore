@@ -1,23 +1,15 @@
-# Terraform directories
-.terraform/
+echo '# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.plan
+*.log
 .terraform.lock.hcl
 
-# State files
-terraform.tfstate
-terraform.tfstate.backup
-
-# Crash logs
-crash.log
-
-# Provider binaries
-*.exe
-*.zip
-
-# Local override files
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
-
-
-terraform.tfvars
+# Sensitive
+**/terraform.tfvars
+**/*.tfstate
+**/*.tfstate.*
+' > .gitignore
