@@ -81,3 +81,40 @@ variable "private_subnet2_name" {
   type        = string
   default     = "Private-Subnet-2"
 }
+
+variable "ami_id" {
+  description = "AMI ID for EC2 instances"
+  type        = string
+}
+
+variable "key_name" {
+  description = "EC2 key pair name"
+  type        = string
+}
+
+
+# CloudFront + S3
+variable "s3_bucket_name" {
+  description = "Name of S3 bucket for static content"
+  type        = string
+}
+variable "domain_name" {
+  description = "Domain name for the website"
+  type        = string
+}
+variable "route53_zone_id" {
+  description = "Route53 hosted zone ID"
+  type        = string
+}
+
+# <-- biến cho RDS
+variable "db_username" {
+  description = "Master username for RDS"
+  type        = string
+  default     = "admin"
+}
+variable "db_password" {
+  description = "Master password for RDS (sensitive)"
+  type        = string
+  sensitive   = true
+}

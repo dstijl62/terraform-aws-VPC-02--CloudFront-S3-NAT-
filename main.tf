@@ -1,6 +1,7 @@
 # Tạo VPC
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr_block
+  enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
@@ -19,9 +20,10 @@ resource "aws_internet_gateway" "gw" {
 
 # Tạo public subnets (2 Availability Zones)
 resource "aws_subnet" "public1" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.public_subnet1_cidr_block   # ✔ sửa đúng tên biến
-  availability_zone = var.public_subnet1_az
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet1_cidr_block
+  availability_zone       = var.public_subnet1_az
+  map_public_ip_on_launch = true
 
   tags = {
     Name = var.public_subnet1_name
@@ -29,9 +31,10 @@ resource "aws_subnet" "public1" {
 }
 
 resource "aws_subnet" "public2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.public_subnet2_cidr_block   # ✔ sửa đúng tên biến
-  availability_zone = var.public_subnet2_az
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet2_cidr_block
+  availability_zone       = var.public_subnet2_az
+  map_public_ip_on_launch = true
 
   tags = {
     Name = var.public_subnet2_name
@@ -42,7 +45,9 @@ resource "aws_subnet" "public2" {
 resource "aws_subnet" "private1" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet1_cidr_block
-  availability_zone = var.private_subnet1_az          # ✔ sửa đúng tên biến
+  availability_zone = var.private_subnet1_az
+
+  map_public_ip_on_launch = false
 
   tags = {
     Name = var.private_subnet1_name
@@ -52,12 +57,16 @@ resource "aws_subnet" "private1" {
 resource "aws_subnet" "private2" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet2_cidr_block
-  availability_zone = var.private_subnet2_az          # ✔ sửa đúng tên biến
+  availability_zone = var.private_subnet2_az
+
+  map_public_ip_on_launch = false
 
   tags = {
     Name = var.private_subnet2_name
   }
 }
+
+
 
 # Tạo public route table
 resource "aws_route_table" "public" {
@@ -83,3 +92,5 @@ resource "aws_route_table_association" "public2" {
   subnet_id      = aws_subnet.public2.id
   route_table_id = aws_route_table.public.id
 }
+
+
