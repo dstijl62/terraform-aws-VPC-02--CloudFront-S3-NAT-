@@ -14,7 +14,4 @@ output "alb_arn" {
   value = aws_lb.web_alb.arn
 }
 
-# ===== THÊM MỚI =====
-output "cloudfront_certificate_arn" {
-  value = aws_acm_certificate_validation.cloudfront_cert_validation.certificate_arn
-}
+# ===== ĐÃ XÓA output "cloudfront_certificate_arn" (không cần nữa) =====
